@@ -19,6 +19,10 @@ jobs:
           command: | 
            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs echo" --split-by=name
       - run:
+          name: split with circleci test split
+          command: |
+            pytest --collect-only -q | grep -e "\.py" | circleci tests split | xargs echo --
+      - run:
           name: Run tests unit tests with fail fast
           command: | 
             pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest -v" --split-by=name --batch-count=2 --fail-fast
