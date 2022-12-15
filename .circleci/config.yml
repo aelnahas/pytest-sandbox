@@ -12,11 +12,11 @@ jobs:
       - run:
           name: list all tests after split
           command: | 
-            pytest --collect-only -q | circleci tests split | xargs echo --
+           pytest --collect-only -q | grep -e "\.py" | circleci tests split | xargs echo 
       - run:
           name: Run tests unit tests
           command: | 
-            pytest --collect-only -q | circleci tests split | xargs pytest -v -x
+            pytest --collect-only -q | grep -e "\.py" | circleci tests split | xargs pytest -v -x
       - store_test_results:
           path: test-results
           
