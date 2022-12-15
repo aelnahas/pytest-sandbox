@@ -13,6 +13,10 @@ jobs:
       - run:
           name: list all tests after split
           command: | 
+            pytest --collect-only -q
+      - run:
+          name: list all tests after split
+          command: | 
            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs echo" --split-by=name
       - run:
           name: Run tests unit tests with fail fast
