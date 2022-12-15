@@ -10,18 +10,13 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          name: list all tests
+          name: list all tests after split
           command: | 
-            pytest --collect-only -q | grep -e "\.py"
-      - run:
-          name:  Count tests
-          command: |
-            pytest --collect-only -q | grep -e "\.py" | wc -l
+            pytest --collect-only -q | circleci tests split | xargs echo --
       - run:
           name: Run tests unit tests
           command: | 
-            mkdir test-results
-            pytest --collect-only -q | grep -e "\.py" | circleci tests run  --command="xargs pytest --junitxml=test-results/junit.xml -v --"  --fail-fast  --batch-count=3 --verbose --test-results-path="test-results"
+            pytest --collect-only -q | circleci tests split | xargs pytest -v -x
       - store_test_results:
           path: test-results
           

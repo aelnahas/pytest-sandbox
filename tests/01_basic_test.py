@@ -1,5 +1,5 @@
 from other_code.services import DATA_SET_A, DATA_SET_B, DATA_SET_C
-
+import time
 
 def test_example():
     """
@@ -7,3 +7,10 @@ def test_example():
     """
     print("\nRunning test_example...")
     assert DATA_SET_A == DATA_SET_B
+
+def test_failing_test():
+    assert 1 == 0
+
+def test_long_test():
+    time.sleep(10)
+    assert 1 == 1
