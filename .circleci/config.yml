@@ -11,11 +11,11 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          name: list all tests after split
+          name: show all possible tests
           command: | 
             pytest --collect-only -q
       - run:
-          name: list all tests after split
+          name: show tests after split
           command: | 
            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs echo" --split-by=name
       - run:
