@@ -13,11 +13,11 @@ jobs:
       - run:
           name: list all tests after split
           command: | 
-           pytest --collect-only -q | grep -e "\.py" | circleci tests split | xargs echo 
+           pytest --collect-only -q | grep -e "\.py" | circleci tests split | circleci tests run --command="xargs echo" --split-by=name
       - run:
-          name: Run tests unit tests
+          name: Run tests unit tests with fail fast
           command: | 
-            pytest --collect-only -q | grep -e "\.py" | circleci tests split | xargs pytest -v -x
+            pytest --collect-only -q | grep -e "\.py" | circleci tests split | circleci tests run --command="xargs pytest -v" --split-by=name --batch-count=2 --fail-fast
       - store_test_results:
           path: test-results
           
