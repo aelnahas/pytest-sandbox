@@ -59,9 +59,9 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          name: run with plugin spit tests by name and set batch_count to 5
+          name: run with plugin spit tests by name and set batch_count to 10
           command: | 
-            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest" --split-by=name --batch-count=5 --fail-fast
+            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest" --split-by=name --batch-count=10 --fail-fast
       - store_test_results:
           path: test-results
 workflows:
