@@ -5,7 +5,6 @@ jobs:
   pytest-no-fail-fast:
     docker:
       - image: cimg/python:3.8.5
-    parallelism: 3
     steps:
       - checkout
       - python/install-packages:
@@ -17,7 +16,6 @@ jobs:
   fail-fast-without-splitting:
     docker:
       - image: cimg/python:3.8.5
-    parallelism: 3
     steps:
       - checkout
       - python/install-packages:
@@ -31,17 +29,9 @@ jobs:
           command: | 
            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs echo --" --split-by=name
       - run:
-          name: split with circleci test split
-          command: |
-            pytest --collect-only -q | grep -e "\.py" | circleci tests split | xargs echo --
-      - run:
-          name: show tests executed during batch
-          command: | 
-           pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs echo --" --split-by=name --batch-count=2
-      - run:
           name: Run tests unit tests with fail fast
           command: | 
-            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest -v" --split-by=name --batch-count=2 --fail-fast
+            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest" --split-by=name --batch-count=2 --fail-fast
       - store_test_results:
           path: test-results  
   pytest-native-fail-fast:
