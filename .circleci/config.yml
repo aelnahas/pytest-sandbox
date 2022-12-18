@@ -50,6 +50,20 @@ jobs:
             pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest" --split-by=name --batch-count=3 --fail-fast
       - store_test_results:
           path: test-results
+  fail-fast-with-splitting-high-batching:
+    docker:
+      - image: cimg/python:3.8.5
+    parallelism: 3
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: run with plugin spit tests by name and set batch_count to 100
+          command: | 
+            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest" --split-by=name --batch-count=100 --fail-fast
+      - store_test_results:
+          path: test-results
 workflows:
   sample:
     jobs:
@@ -57,5 +71,6 @@ workflows:
       - fail-fast-without-splitting
       - pytest-native-fail-fast
       - fail-fast-with-splitting
+      - fail-fast-with-splitting-high-batching
 
 # VS Code Extension Version: 1.4.0
