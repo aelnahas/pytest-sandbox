@@ -21,19 +21,9 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          name: show all possible tests
-          command: | 
-            pytest --collect-only -q
-      - run:
-          name: show tests split by test plugin
-          command: | 
-           pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs echo --" --split-by=name
-      - run:
           name: Run tests unit tests with fail fast
           command: | 
-            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest" --split-by=name --batch-count=2 --fail-fast
-      - store_test_results:
-          path: test-results  
+            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest" --batch-count=2 --fail-fast 
   pytest-native-fail-fast:
     docker:
       - image: cimg/python:3.8.5
