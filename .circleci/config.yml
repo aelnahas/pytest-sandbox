@@ -33,27 +33,9 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          name: show all possible tests
+          name: pytest with its own native fail-fast (max-fail)
           command: | 
-            pytest --collect-only -q
-      - run:
-          name: show tests split by test plugin
-          command: | 
-           pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs echo --" --split-by=name
-      - run:
-          name: split with circleci test split
-          command: |
-            pytest --collect-only -q | grep -e "\.py" | circleci tests split | xargs echo --
-      - run:
-          name: show tests executed during batch
-          command: | 
-           pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs echo --" --split-by=name --batch-count=2
-      - run:
-          name: Run tests unit tests with fail fast
-          command: | 
-            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest -v" --split-by=name --batch-count=2 --fail-fast
-      - store_test_results:
-          path: test-results  
+            pytest --collect-only -q | grep -e "\.py" | circleci tests split | xargs pytest -x
   fail-fast-with-splitting:
     docker:
       - image: cimg/python:3.8.5
