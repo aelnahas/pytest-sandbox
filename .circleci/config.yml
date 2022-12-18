@@ -2,6 +2,18 @@ version: 2.1
 orbs:
   python: circleci/python@2.1.1
 jobs:
+  pytest-no-fail-fast:
+    docker:
+      - image: cimg/python:3.8.5
+    parallelism: 3
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: Run tests unit tests
+          command: | 
+            pytest  
   fail-fast-without-splitting:
     docker:
       - image: cimg/python:3.8.5
@@ -96,6 +108,7 @@ jobs:
 workflows:
   sample:
     jobs:
+      - pytest-no-fail-fast
       - fail-fast-without-splitting
       - pytest-native-fail-fast
       - fail-fast-with-splitting
