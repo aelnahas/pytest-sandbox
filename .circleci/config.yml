@@ -33,7 +33,7 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          name: Run tests unit tests with fail fast
+          name: run with plugin without splitting or parallelism
           command: | 
             pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest" --batch-count=2 --fail-fast 
   fail-fast-with-splitting:
@@ -45,7 +45,7 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          name: Run tests unit tests with fail fast
+          name: run with plugin spit tests by name and set batch_count to 3
           command: | 
             pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest" --split-by=name --batch-count=3 --fail-fast
       - store_test_results:
