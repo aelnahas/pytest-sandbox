@@ -1,5 +1,6 @@
 from other_code.services import count_service
 from pytest import fixture, raises
+import time
 
 
 @fixture
@@ -23,3 +24,7 @@ def test_mocker_with_exception(re_usable_db_mocker):
 
     with raises(Exception):
         count_service("foo")
+
+def test_slow_test():
+    time.sleep(30)
+    assert 1 == 1
