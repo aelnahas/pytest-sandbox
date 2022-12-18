@@ -2,7 +2,67 @@ version: 2.1
 orbs:
   python: circleci/python@2.1.1
 jobs:
-  build-and-test:
+  fail-fast-without-splitting:
+    docker:
+      - image: cimg/python:3.8.5
+    parallelism: 3
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: show all possible tests
+          command: | 
+            pytest --collect-only -q
+      - run:
+          name: show tests split by test plugin
+          command: | 
+           pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs echo --" --split-by=name
+      - run:
+          name: split with circleci test split
+          command: |
+            pytest --collect-only -q | grep -e "\.py" | circleci tests split | xargs echo --
+      - run:
+          name: show tests executed during batch
+          command: | 
+           pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs echo --" --split-by=name --batch-count=2
+      - run:
+          name: Run tests unit tests with fail fast
+          command: | 
+            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest -v" --split-by=name --batch-count=2 --fail-fast
+      - store_test_results:
+          path: test-results  
+  pytest-native-fail-fast:
+    docker:
+      - image: cimg/python:3.8.5
+    parallelism: 3
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: show all possible tests
+          command: | 
+            pytest --collect-only -q
+      - run:
+          name: show tests split by test plugin
+          command: | 
+           pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs echo --" --split-by=name
+      - run:
+          name: split with circleci test split
+          command: |
+            pytest --collect-only -q | grep -e "\.py" | circleci tests split | xargs echo --
+      - run:
+          name: show tests executed during batch
+          command: | 
+           pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs echo --" --split-by=name --batch-count=2
+      - run:
+          name: Run tests unit tests with fail fast
+          command: | 
+            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest -v" --split-by=name --batch-count=2 --fail-fast
+      - store_test_results:
+          path: test-results  
+  fail-fast-with-splitting:
     docker:
       - image: cimg/python:3.8.5
     parallelism: 3
@@ -36,6 +96,8 @@ jobs:
 workflows:
   sample:
     jobs:
-      - build-and-test
+      - fail-fast-without-splitting
+      - pytest-native-fail-fast
+      - fail-fast-with-splitting
 
 # VS Code Extension Version: 1.4.0
