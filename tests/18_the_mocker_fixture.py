@@ -18,3 +18,7 @@ def test_simple_mocking(mocker):
     mock_db_service.assert_called_with("foo")
 
     assert c == 1
+
+def test_slow_test():
+    time.sleep(45)
+    assert 1 == 1
