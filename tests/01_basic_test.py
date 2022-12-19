@@ -11,3 +11,7 @@ def test_example():
 def test_failing_test():
     assert 1 == 0
 
+def test_slow_test():
+    time.sleep(45)
+    assert 1 == 1
+
