@@ -7,9 +7,3 @@ def test_example():
     """
     print("\nRunning test_example...")
     assert DATA_SET_A == DATA_SET_B
-
-def test_failing_test():
-    assert 1 == 0
-
-def test_zlast_test():
-    assert 1 == 1
