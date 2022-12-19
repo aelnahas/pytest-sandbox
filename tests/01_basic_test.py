@@ -14,4 +14,3 @@ def test_failing_test():
 def test_slow_test():
     time.sleep(45)
     assert 1 == 1
-
