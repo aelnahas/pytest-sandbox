@@ -9,6 +9,9 @@ def test_with_local_fixture(local_fixture):
     print("Running test_with_local_fixture...")
     assert True
 
+def test_slow_test():
+    time.sleep(45)
+    assert 1 == 1
 
 @pytest.fixture
 def local_fixture():
