@@ -25,6 +25,6 @@ def test_mocker_with_exception(re_usable_db_mocker):
     with raises(Exception):
         count_service("foo")
 
-def test_Zzslow_test():
+def test_zslow_test():
     time.sleep(30)
     assert 1 == 1
