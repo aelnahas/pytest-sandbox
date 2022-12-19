@@ -11,5 +11,3 @@ def test_example():
 def test_failing_test():
     assert 1 == 0
 
-def test_zlast_test():
-    assert 1 == 1
