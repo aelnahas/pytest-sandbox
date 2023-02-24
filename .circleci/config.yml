@@ -12,7 +12,9 @@ jobs:
       - run:
           name: Run tests unit tests
           command: | 
-            pytest  
+            pytest --junitxml=testresults/junit.xml
+      - store_test_results:
+          path: testresults/junit.xml 
   pytest-native-fail-fast:
     docker:
       - image: cimg/python:3.8.5
