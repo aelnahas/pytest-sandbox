@@ -49,7 +49,7 @@ jobs:
       - run:
           name: run with plugin spit tests by name and set batch_count to 3
           command: | 
-            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest" --split-by=name --batch-count=3 --fail-fast
+            pytest --collect-only -q | grep -e "\.py" | circleci tests run --command="xargs pytest"
       - store_test_results:
           path: test-results
   fail-fast-with-splitting-high-batching:
