@@ -3,6 +3,7 @@ orbs:
   python: circleci/python@2.1.1
 jobs:
   pytest-no-fail-fast:
+    parallelism: 3
     docker:
       - image: cimg/python:3.8.5
     steps:
